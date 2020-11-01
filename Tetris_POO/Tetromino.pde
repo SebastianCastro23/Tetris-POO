@@ -11,13 +11,14 @@ class Tetromino {
   int[][] Z = {{0, 0}, {1, 0}, {1, 1}, {2, 1}}; //Z
 
   //Variables empleadas
-  int[][] figura; //Array de la figura
+  int[][] figura, f_original; //Array de la figura actual y figura original
   int eleccion; //Seleccion de la figura
   color Color; //Color de la figura
   boolean is;
   float t_casilla; //tamaño de cada casilla
   int contador; //contador para la velocidad de caída
-  
+  int cont_rotaciones; //contador de las rotaciones
+
   //Booleano para verificar si la ficha se encuentra en un límite
   boolean limite(String direccion) {
     //Hacemos casos para cada dirección
@@ -91,7 +92,10 @@ class Tetromino {
       Color = #9AF857;
       break;
     }
-  }
+    contador = 1; //incializamos el contador en 1
+    f_original = figura;
+    cont_rotaciones = 0;
+  } 
 
   //Método display
   void display() {
@@ -120,12 +124,57 @@ class Tetromino {
       }
     }
   }
-  
+
   //Caida
-  void caida(int nivel){ //la velocidad de caída depende del nivel
-  if (contador%50 == 0){
-    mover("ABAJO");
+  void caida(int nivel) { //la velocidad de caída depende del nivel
+    if (contador%50 == 0) { //Entre mayor sea el módulo menor será la velocidad de caída
+      mover("ABAJO");
+    }
+    contador ++; //aumentamos el contador
   }
-  contador ++; 
+
+  //Método rotar
+  void rotar() {
+    if (figura != O) { //No aplicar la rotación si la figura es la O
+    
+      //nueva array para la rotación
+      //Siempre rotamos la figura original (f_original)
+      //Le restamos la posición actual para que rote en esa posición
+      int[][] rotacion = new int[4][2];
+
+      //90° (x,y) = (y,-x)
+      if (cont_rotaciones%4 == 0) {
+        for (int i = 0; i < 4; i++) {
+          rotacion[i][0] = f_original[i][1] - figura[1][0]; 
+          rotacion[i][1] = -f_original[i][0] - figura[1][1];
+        }
+      }
+
+      //180° (x,y) = (-x,-y)
+      else if (cont_rotaciones%4 == 1) {
+        for (int i = 0; i < 4; i++) {
+          rotacion[i][0] = -f_original[i][0] - figura[1][0]; 
+          rotacion[i][1] = -f_original[i][1] - figura[1][1];
+        }
+      }
+
+      //270° (x,y) = (-y,x)
+      else if (cont_rotaciones%4 == 2) {
+        for (int i = 0; i < 4; i++) {
+          rotacion[i][0] = -f_original[i][1] - figura[1][0]; 
+          rotacion[i][1] = f_original[i][0] - figura[1][1];
+        }
+      }
+
+      //360°(Retornar al lugar original)
+      else if (cont_rotaciones%4 == 3) {
+        for (int i = 0; i < 4; i++) {
+          rotacion[i][0] = f_original[i][0] - figura[1][0]; 
+          rotacion[i][1] = f_original[i][1] - figura[1][1];
+        }
+      }
+
+      figura = rotacion; //guardamos los datos de la figura rotada en la figura actual
+    }
   }
 }

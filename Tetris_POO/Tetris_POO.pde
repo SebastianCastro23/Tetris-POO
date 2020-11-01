@@ -12,7 +12,6 @@ void draw(){
   background(0);
   t1.display();
   ficha.display();
-  ficha.caida(1);
 }
 
 void keyPressed(){
@@ -22,5 +21,18 @@ void keyPressed(){
     ficha.mover("IZQUIERDA");
   } else if (keyCode == DOWN){
     ficha.mover("ABAJO");
+  }
+}
+
+//Hacemos un keyReleased para las rotaciones
+void keyReleased(){
+  if(keyCode == UP){
+    //Se añade dos veces la función rotar
+    //En la primera se guardan las coordenadas de la figura rotada
+    //En la segunda se coloca la ficha en la posición actual
+    ficha.rotar();
+    ficha.rotar();
+    
+    ficha.cont_rotaciones ++; //Actualizar el contador de la rotación actual
   }
 }
