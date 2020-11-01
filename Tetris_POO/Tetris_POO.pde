@@ -16,14 +16,29 @@ void draw() {
   //background(0);
   memoria.display();
   tab.display();
-  ficha.display();
-  ficha.caida(1);
-  Fondo();
+  dibujarfigura();
 }
 
 //Dibujar figura en el tablero
 void dibujarfigura() {
-  memoria.plasmar(ficha);
+  ficha.display();
+
+  if (ficha.fondo(memoria)) { //Verifica si la ficha puede seguir bajando
+
+    //Si la ficha no ha alcanzado el fondo, sigue bajando
+    ficha.caida(1);
+  } else {
+
+    //si no puede bajar más, desactiva el estado "en juego" de la ficha
+    ficha.enJuego = false;
+  }
+
+  if (!ficha.enJuego) { //Verifica si la ficha ya no esta en juego
+    memoria.plasmar(ficha); //Plasma la figura en el tablero memoria
+    ficha = f_sig; //La nueva ficha en juego es la ficha que estaba en espera
+    ficha.enJuego = true; //Pone la ficha en juego
+    f_sig = new Tetromino(); //Genera una nueva ficha en espera
+  }
 }
 
 void keyPressed() {

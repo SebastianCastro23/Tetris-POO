@@ -18,6 +18,8 @@ class Tetromino {
   float t_casilla; //tamaño de cada casilla
   int contador; //contador para la velocidad de caída
   int cont_rotaciones; //contador de las rotaciones
+  int x;
+  int y;
 
   //Booleano para verificar si la ficha se encuentra en un límite
   boolean limite(String direccion) {
@@ -177,5 +179,19 @@ class Tetromino {
 
       figura = rotacion; //guardamos los datos de la figura rotada en la figura actual
     }
+  }
+
+  //Booleano para verificar si puede seguir bajando o no
+  boolean fondo(T_memoria tab) {
+    for (int i = 0; i < 4; i++) { //verifica cada bloque
+      x = figura[i][0];
+      y = figura[i][1];
+      if (x >= 0 && x < 12 && y >= 0 && y < 23) {
+        if (tab.colores[x][y+1][0] != 0) { // si el color de abajo no es negro, no puede bajar más
+          return false;
+        }
+      }
+    }
+    return true;
   }
 }
