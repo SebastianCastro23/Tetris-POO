@@ -14,7 +14,7 @@ class Tetromino {
   int[][] figura, f_original; //Array de la figura actual y figura original
   int eleccion; //Seleccion de la figura
   color Color; //Color de la figura
-  boolean is;
+  boolean enJuego; //Verifica si la ficha ya se colocó o no
   float t_casilla; //tamaño de cada casilla
   int contador; //contador para la velocidad de caída
   int cont_rotaciones; //contador de las rotaciones
@@ -42,6 +42,7 @@ class Tetromino {
     case "ABAJO":
       for (int i = 0; i < 4; i++) {
         if (figura[i][1] > 22) { //si la posición en y es mayor a la casilla 22 devuelve falso
+          enJuego = false;
           return false;
         }
       }
@@ -136,7 +137,7 @@ class Tetromino {
   //Método rotar
   void rotar() {
     if (figura != O) { //No aplicar la rotación si la figura es la O
-    
+
       //nueva array para la rotación
       //Siempre rotamos la figura original (f_original)
       //Le restamos la posición actual para que rote en esa posición
