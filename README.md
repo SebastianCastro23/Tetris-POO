@@ -43,7 +43,7 @@ void display() {
     strokeWeight(1);
     fill(Color);
     for (int i = 0; i < 4; i++) { //Recorre el array de cada figura
-      rect(figura[i][0] * t_casilla, figura[i][1] * t_casilla, t_casilla, t_casilla); \\t_casilla = width/24
+      rect(figura[i][0] * t_casilla, figura[i][1] * t_casilla, t_casilla, t_casilla); //t_casilla = width/24
     };
     pop();
   }
@@ -67,4 +67,107 @@ Para cada figura se crea un array bidimensional en donde las coordenadas *x* y *
     };
     pop();
   }
+```
+
+El método ```mover()``` que recibe información de una string que varía dependiendo la tecla que se este presionando, y que como su nombre lo indica, provoca el desplazamiento de la figura a través del tablero,
+
+```processing
+oid mover(String direccion) { //Direccion dada por una string
+    //Primero verificamos si es posible realizar el movimiento
+    if (limite(direccion)) {
+      if (direccion == "DERECHA") {
+        for (int i = 0; i < 4; i++) {
+          figura[i][0]++; //Sumar 1 a la posición en x
+        }
+      } else if (direccion == "IZQUIERDA") {
+        for (int i = 0; i < 4; i++) {
+          figura[i][0]--; //Restar 1 a la posición en x
+        }
+      } else if (direccion == "ABAJO") {
+        for (int i = 0; i < 4; i++) {
+          figura[i][1]++; //Sumar 1 a la posición en y
+        }
+      }
+    }
+  }
+```
+
+Luego vienen los métodos ```sombra()``` y ```bajarfondo()``` que utilizan una variable de tipo booleano llamada ```fondosombra``` que nos indica cual es la posición máxima en y que puede ocupar la figura en las posiciones de x actuales. El primer método que mencioné, se encarga de dibujar la sombra de la figura, es decir, donde va a caer,
+
+```processing
+  void sombra(T_memoria tab) {
+    int[] valores = {figura[0][1], figura[1][1], figura[2][1], figura[3][1]};
+    //busco los valores máximos y mínimos en y de la figura
+    max_y = max(valores); 
+    min_y = min(valores);
+    
+    //Verifica todas las filas desde la máxima de y hasta la última
+    for ( int k = max_y; k < 24; k++) {
+      if (fondosombra(tab, k, max_y)) {
+      } else { //Si la fila es el fondo, dibuja la sombra
+        push();
+        strokeWeight(1);
+        stroke(Color);
+        fill(0);
+        for (int j = 0; j < 4; j++) {
+          x_sombra = figura[j][0];
+          y_sombra = figura[j][1];
+          if (max_y < ((k-(max_y-min_y))-1)) {
+            rect(x_sombra * t_casilla, ((k-1) - (max_y - y_sombra)) * t_casilla, t_casilla, t_casilla);
+          }
+        };
+        pop();
+        k = 24;
+      };
+      if (k==23) { //Si no encontro una fila que actúe como fondo, eso quiere decir que el fondo es la fila 23
+        push();
+        strokeWeight(1);
+        stroke(Color);
+        fill(0);
+        for (int j = 0; j < 4; j++) {
+          x_sombra = figura[j][0];
+          y_sombra = figura[j][1];
+          if (max_y < (23-(max_y-min_y))) {
+            rect(x_sombra * t_casilla, (23 - (max_y - y_sombra)) * t_casilla, t_casilla, t_casilla);
+          }
+        };
+        pop();
+      }
+    }
+  }
+
+```
+
+El segundo método también utiliza la variable booleana, pero en este caso para provocar la caída de la figura hasta el fondo,
+
+```processing
+int filasbajadas; //Para contar las filas que bajan 
+  //Bajar la figura hasta el fondo
+  void bajarfondo(T_memoria tab) {
+    int[] valores = {figura[0][1], figura[1][1], figura[2][1], figura[3][1]};
+    max_y = max(valores);
+    min_y = min(valores);
+    
+    //Verifica todas las filas
+    for ( int k = max_y; k < 24; k++) {
+      if (fondosombra(tab, k, max_y)) {
+      } else { //Una vez encuentra la fila fondo, cambia los valores de y de la figura
+        for (int i = 0; i < 4; i++) {
+          figura[i][1] = (figura[i][1] + (k - max_y))-1;
+          filasbajadas = (k - max_y)-1;
+          println(filasbajadas);
+        };
+        k = 24;
+      }
+      
+      //Si ninguna fila actúa como el fondo, eso quiere decir que el fondo es la fila 23
+      if (k==23) { 
+        for (int j = 0; j < 4; j++) {
+          figura[j][1] = figura[j][1] + (23 - max_y);
+          filasbajadas = 23 - max_y;
+        }
+      }
+    }
+  }
+
 ```
