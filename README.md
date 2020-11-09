@@ -28,7 +28,7 @@ La clase tetromino es la encargada de la información y los métodos de cada tet
 
 La coordenada asignada a cada bloque no solo permite dibujarlo, sino también rotarlo facilmente. Para dibujar el bloque a partir de las coordenadas se hace de la siguiente manera:
 
-```python
+```processing
 s = "Python syntax highlighting"
 print s
 ```
