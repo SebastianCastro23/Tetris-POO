@@ -29,6 +29,22 @@ La clase tetromino es la encargada de la información y los métodos de cada tet
 La coordenada asignada a cada bloque no solo permite dibujarlo, sino también rotarlo facilmente. Para dibujar el bloque a partir de las coordenadas se hace de la siguiente manera:
 
 ```processing
-void Draw(){
-}
+//Arrays para cada ficha
+int[][] O = {{0, 0}, {1, 0}, {0, 1}, {1, 1}}; //O
+int[][] I = {{0, 0}, {1, 0}, {2, 0}, {3, 0}}; //I
+int[][] T = {{0, 0}, {1, 0}, {2, 0}, {1, 1}}; //T
+int[][] L = {{0, 0}, {1, 0}, {2, 0}, {0, 1}}; //L
+int[][] J = {{0, 0}, {0, 1}, {1, 1}, {2, 1}}; //J
+int[][] S = {{0, 1}, {1, 1}, {1, 0}, {2, 0}}; //S
+int[][] Z = {{0, 0}, {1, 0}, {1, 1}, {2, 1}}; //Z
+
+void display() {
+    push();
+    strokeWeight(1);
+    fill(Color);
+    for (int i = 0; i < 4; i++) { //Recorre el array de cada figura
+      rect(figura[i][0] * t_casilla, figura[i][1] * t_casilla, t_casilla, t_casilla);
+    };
+    pop();
+  }
 ```
