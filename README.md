@@ -155,7 +155,6 @@ int filasbajadas; //Para contar las filas que bajan
         for (int i = 0; i < 4; i++) {
           figura[i][1] = (figura[i][1] + (k - max_y))-1;
           filasbajadas = (k - max_y)-1;
-          println(filasbajadas);
         };
         k = 24;
       }
@@ -170,4 +169,63 @@ int filasbajadas; //Para contar las filas que bajan
     }
   }
 
+```
+
+Por último nos encontramos con los métodos ```caida``` y ```rotar```. El primero es bastante sencillo, genera una velocidad de caída de la figura dependiendo del nivel actual, y llama a la función mover,
+
+```processing
+ void caida(int nivel) { //la velocidad de caída depende del nivel
+      if (tiempo%(50-(nivel*5)) == 0) { //Entre mayor sea el módulo menor será la velocidad de caída
+        mover("ABAJO");
+      }
+      tiempo ++; //aumentamos el contador
+    }
+```
+
+El método ```rotar``` utiliza las coordenadas *x* y *y* de la figura, y realiza el procedimiento de rotar la figura como se mostró anteriormente en la figura,
+
+```processing
+void rotar() {
+      if (figura != O) { //No aplicar la rotación si la figura es la O
+
+        //nueva array para la rotación
+        //Siempre rotamos la figura original (f_original)
+        //Le restamos la posición actual para que rote en esa posición
+        int[][] rotacion = new int[4][2];
+
+        //90° (x,y) = (y,-x)
+        if (cont_rotaciones%4 == 0) {
+          for (int i = 0; i < 4; i++) {
+            rotacion[i][0] = f_original[i][1] - figura[1][0]; 
+            rotacion[i][1] = -f_original[i][0] - figura[1][1];
+          }
+        }
+
+        //180° (x,y) = (-x,-y)
+        else if (cont_rotaciones%4 == 1) {
+          for (int i = 0; i < 4; i++) {
+            rotacion[i][0] = -f_original[i][0] - figura[1][0]; 
+            rotacion[i][1] = -f_original[i][1] - figura[1][1];
+          }
+        }
+
+        //270° (x,y) = (-y,x)
+        else if (cont_rotaciones%4 == 2) {
+          for (int i = 0; i < 4; i++) {
+            rotacion[i][0] = -f_original[i][1] - figura[1][0]; 
+            rotacion[i][1] = f_original[i][0] - figura[1][1];
+          }
+        }
+
+        //360°(Retornar al lugar original)
+        else if (cont_rotaciones%4 == 3) {
+          for (int i = 0; i < 4; i++) {
+            rotacion[i][0] = f_original[i][0] - figura[1][0]; 
+            rotacion[i][1] = f_original[i][1] - figura[1][1];
+          }
+        }
+
+        figura = rotacion; //guardamos los datos de la figura rotada en la figura actual
+      }
+    }
 ```
