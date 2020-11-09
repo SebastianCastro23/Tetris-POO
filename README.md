@@ -43,7 +43,7 @@ void display() {
     strokeWeight(1);
     fill(Color);
     for (int i = 0; i < 4; i++) { //Recorre el array de cada figura
-      rect(figura[i][0] * t_casilla, figura[i][1] * t_casilla, t_casilla, t_casilla);
+      rect(figura[i][0] * t_casilla, figura[i][1] * t_casilla, t_casilla, t_casilla); \\t_casilla = width/24
     };
     pop();
   }
