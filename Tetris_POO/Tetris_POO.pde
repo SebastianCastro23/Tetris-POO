@@ -3,7 +3,7 @@ Tetromino ficha, f_sig; //Ficha actual y en espera
 T_memoria memoria; //Tablero memoria
 
 void setup() {
-  strokeWeight(2);
+  strokeWeight(0.1);
   size(720, 720);
   tab = new Tablero();
   ficha = new Tetromino(); //Ficha actual
@@ -33,6 +33,7 @@ void draw() {
 //Dibujar figura en el tablero
 void dibujarfigura() {
   ficha.display(); //Mostramos la ficha
+  ficha.sombra(memoria);
 
   if (ficha.fondo(memoria)) { //Verifica si la ficha puede seguir bajando
 
@@ -76,4 +77,10 @@ void keyReleased() {
 
     ficha.cont_rotaciones ++; //Actualizar el contador de la rotación actual
   }
+}
+
+void mouseReleased(){
+  ficha.bajarfondo(memoria);
+  memoria.puntaje = 2 * ficha.filasbajadas;
+  
 }
