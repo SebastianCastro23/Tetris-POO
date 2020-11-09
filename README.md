@@ -48,3 +48,5 @@ void display() {
     pop();
   }
 ```
+
+Para cada figura se crea un array bidimensional en donde las coordenadas *x* y *y* de cada punto se llaman utilizando ```processing ```
