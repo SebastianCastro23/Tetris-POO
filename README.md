@@ -49,4 +49,22 @@ void display() {
   }
 ```
 
-Para cada figura se crea un array bidimensional en donde las coordenadas *x* y *y* de cada punto se llaman utilizando ```processing ```
+Para cada figura se crea un array bidimensional en donde las coordenadas *x* y *y* de cada punto se llaman utilizando ```figura[i][0]``` y ```figura[i][1]``` respectivamente, donde *i* es el elemento de la lista. Son varios los métodos que se encuentran dentro de la clase tetromino, el método ```display()``` que mostramos anteriormente, el ```m_sig()```, que se encarga de mostrar la siguiente figura en la parte derecha del tablero,
+
+```processing
+ void m_sig() { 
+    fill(179, 244, 208);
+    rect(width/2, 0, width/2, height);
+    fill(0);
+    text("SIGUIENTE FICHA:", width/2 + 60, 70);
+    fill(83, 147, 111);
+    text("SIGUIENTE FICHA:", width/2 + 62, 72);
+    push();
+    strokeWeight(1);
+    fill(Color);
+    for (int i = 0; i < 4; i++) {
+      rect(figura[i][0] * t_casilla + width/2 + 140, figura[i][1] * t_casilla + 100, t_casilla, t_casilla); //La muestro en la parte derecha del tablero
+    };
+    pop();
+  }
+```
