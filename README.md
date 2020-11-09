@@ -23,3 +23,5 @@ La idea que desarrolle durante fue el uso de tres clases, llamadas *Tetromino*, 
 ##### 2.2. Tetromino
 
 La clase tetromino es la encargada de la información y los métodos de cada tetromino que se crea y se pone en juego. Para instanciar la forma de cada tetromino, utilize arrays que contienen datos de las coordenadas de cada cuadro del tetromino. El sistema de coordenadas funciona de la siguiente manera:
+
+<p align="center"><img src="Coordenadas.PNG" width="35%"></p>
