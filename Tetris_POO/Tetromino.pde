@@ -9,23 +9,26 @@ class Tetromino {
   int[][] J = {{0, 0}, {0, 1}, {1, 1}, {2, 1}}; //J
   int[][] S = {{0, 1}, {1, 1}, {1, 0}, {2, 0}}; //S
   int[][] Z = {{0, 0}, {1, 0}, {1, 1}, {2, 1}}; //Z
-
+  
   //Variables empleadas
-  int[][] figura, f_original; //Array de la figura actual y figura original
+  int[][] figura, f_original, f_sombra; //Array de la figura actual y figura original
   int eleccion; //Seleccion de la figura
   color Color; //Color de la figura
   boolean enJuego; //Verifica si la ficha ya se colocó o no
   float t_casilla; //tamaño de cada casilla
-  int contador; //contador para la velocidad de caída
+  int tiempo; //tiempo transcurrido
   int cont_rotaciones; //contador de las rotaciones
-  int x;
+  int x; 
   int y;
+  int y_sombra;
+  int c_sombra;
 
   //Booleano para verificar si la ficha se encuentra en un límite
   boolean limite(String direccion) {
     //Hacemos casos para cada dirección
     switch(direccion) {
-    case "DERECHA":
+    //ES POSIBLE...
+    case "DERECHA": //MOVER A LA DERECHA? 
       for (int i = 0; i < 4; i++) {
         if (figura[i][0] > 10) { //si la posición es mayor a la casilla 10 devuelve falso
           return false;
@@ -33,7 +36,7 @@ class Tetromino {
       }
       break;
 
-    case "IZQUIERDA":
+    case "IZQUIERDA": //MOVER A LA IZQUIERDA??
       for (int i = 0; i < 4; i++) {
         if (figura[i][0] < 1) { //si la posición en x es menor a la casilla 1 devuelve falso
           return false;
@@ -41,7 +44,7 @@ class Tetromino {
       }
       break;
 
-    case "ABAJO":
+    case "ABAJO": //MOVER HACIA ABAJO??
       for (int i = 0; i < 4; i++) {
         if (figura[i][1] > 22) { //si la posición en y es mayor a la casilla 22 devuelve falso
           enJuego = false;
@@ -95,16 +98,34 @@ class Tetromino {
       Color = #9AF857;
       break;
     }
-    contador = 1; //incializamos el contador en 1
-    f_original = figura;
-    cont_rotaciones = 0;
+    tiempo = 1; //incializamos el tiempo en 1
+    f_original = figura; //Figura original
+    cont_rotaciones = 0; //inicializamos el contador de rotaciones en 0
   } 
-
+  
+  //METODOS
+  
   //Método display
   void display() {
     fill(Color);
-    for (int i = 0; i < 4; i++) {
+    for (int i = 0; i < 4; i++) { //Recorre el array de cada figura
       rect(figura[i][0] * t_casilla, figura[i][1] * t_casilla, t_casilla, t_casilla);
+    }
+  }
+  
+  
+  //Dibujo la figura siguiente en la parte derecha del tablero
+  void m_sig() { 
+    fill(179,244,208);
+    rect(width/2,0,width/2,height);
+    fill(0);
+    text("SIGUIENTE FICHA:",width/2 + 60, 70);
+    fill(83,147,111);
+    text("SIGUIENTE FICHA:",width/2 + 62, 72);
+    
+    fill(Color);
+    for (int i = 0; i < 4; i++) {
+      rect(figura[i][0] * t_casilla + width/2 + 140, figura[i][1] * t_casilla + 100, t_casilla, t_casilla); //La muestro en la parte derecha del tablero
     }
   }
 
@@ -130,10 +151,10 @@ class Tetromino {
 
   //Caida
   void caida(int nivel) { //la velocidad de caída depende del nivel
-    if (contador%50 == 0) { //Entre mayor sea el módulo menor será la velocidad de caída
+    if (tiempo%(50-(nivel*5)) == 0) { //Entre mayor sea el módulo menor será la velocidad de caída
       mover("ABAJO");
     }
-    contador ++; //aumentamos el contador
+    tiempo ++; //aumentamos el contador
   }
 
   //Método rotar
@@ -182,10 +203,10 @@ class Tetromino {
   }
 
   //Booleano para verificar si puede seguir bajando o no
-  boolean fondo(T_memoria tab) {
-    for (int i = 0; i < 4; i++) { //verifica cada bloque
-      x = figura[i][0];
-      y = figura[i][1];
+  boolean fondo(T_memoria tab) { //Recibe datos del tablero memoria
+    for (int i = 0; i < 4; i++) { //verifica el array de la figura
+      x = figura[i][0]; //Saca la posicion en x
+      y = figura[i][1]; //Saca la posicion en y
       if (x >= 0 && x < 12 && y >= 0 && y < 23) {
         if (tab.colores[x][y+1][0] != 0) { // si el color de abajo no es negro, no puede bajar más
           return false;

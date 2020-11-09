@@ -1,32 +1,43 @@
-Tablero tab;
-Tetromino ficha, f_sig;
-T_memoria memoria;
+Tablero tab; //Tablero
+Tetromino ficha, f_sig; //Ficha actual y en espera
+T_memoria memoria; //Tablero memoria
 
 void setup() {
   strokeWeight(2);
   size(720, 720);
   tab = new Tablero();
-  ficha = new Tetromino();
-  f_sig = new Tetromino();
+  ficha = new Tetromino(); //Ficha actual
+  f_sig = new Tetromino(); //Ficha Siguiente
   ficha.enJuego = true; //Ponemos la ficha en juego
   memoria = new T_memoria();
+  textSize(30);
 }
 
 void draw() {
-  //background(0);
-  memoria.display();
-  tab.display();
-  dibujarfigura();
+  memoria.display(); //Mostramos el tablero memoria
+  tab.display(); //Mostramos el tablero de la ficha en juego
+  dibujarfigura(); //Dibujamos la ficha actual
+  f_sig.m_sig(); //Muestra la ficha en espera
+  
+  //Letreros de la derecha
+  fill(0);
+  text("Puntaje: " + memoria.puntaje, width/2 + 100, height -100);
+  text("Nivel: " + memoria.nivel, width/2 + 100, height -160);
+  text("Líneas: " + memoria.lineas_t, width/2 + 100, height -220);
+  fill(83,147,111);
+  text("Puntaje: " + memoria.puntaje, width/2 + 102, height -98);
+  text("Nivel: " + memoria.nivel, width/2 + 102, height -158);
+  text("Líneas: " + memoria.lineas_t, width/2 + 102, height -218);
 }
 
 //Dibujar figura en el tablero
 void dibujarfigura() {
-  ficha.display();
+  ficha.display(); //Mostramos la ficha
 
   if (ficha.fondo(memoria)) { //Verifica si la ficha puede seguir bajando
 
     //Si la ficha no ha alcanzado el fondo, sigue bajando
-    ficha.caida(1);
+    ficha.caida(memoria.nivel);
   } else {
 
     //si no puede bajar más, desactiva el estado "en juego" de la ficha
@@ -38,9 +49,11 @@ void dibujarfigura() {
     ficha = f_sig; //La nueva ficha en juego es la ficha que estaba en espera
     ficha.enJuego = true; //Pone la ficha en juego
     f_sig = new Tetromino(); //Genera una nueva ficha en espera
+    memoria.f_eliminadas = 0;
   }
 }
 
+//Mover la ficha
 void keyPressed() {
   if (keyCode == RIGHT) {
     ficha.mover("DERECHA");
@@ -48,6 +61,7 @@ void keyPressed() {
     ficha.mover("IZQUIERDA");
   } else if (keyCode == DOWN) {
     ficha.mover("ABAJO");
+    memoria.puntaje++;
   }
 }
 
@@ -61,15 +75,5 @@ void keyReleased() {
     ficha.rotar();
 
     ficha.cont_rotaciones ++; //Actualizar el contador de la rotación actual
-  }
-}
-
-//Dibujar la ficha cuando llegue al fondo
-void Fondo() {
-  if (!ficha.enJuego) { //Verifica si la ficha ya no esta en juego
-    dibujarfigura(); //Dibuja la figura en el tablero memoria
-    ficha = f_sig; //La nueva ficha en juego es la ficha que estaba en espera
-    ficha.enJuego = true; //Pone la ficha en juego
-    f_sig = new Tetromino(); //Genera una nueva ficha en espera
   }
 }
