@@ -19,8 +19,8 @@ El programa se desarrolló en *processing*. Processing es un flexible software d
 
 La idea que desarrolle durante fue el uso de tres clases, llamadas *Tetromino*, *Tablero* y el *Tablero Memoria*, que las explicaré en detalle más adelante. La versión actual del programa es capaz de generar fichas aleatorias, posicionarlas en el fondo del tablero, apilarlas y eliminar las filas cuando estan estas se completen y llevar la cuenta del puntaje, nivel y filas eliminadas.
 
-#### 2.1. Clases
-##### 2.2. Tetromino
+### 2.1. Clases
+### 2.1.1. Tetromino
 
 La clase tetromino es la encargada de la información y los métodos de cada tetromino que se crea y se pone en juego. Para instanciar la forma de cada tetromino, utilize arrays que contienen datos de las coordenadas de cada cuadro del tetromino. El sistema de coordenadas funciona de la siguiente manera:
 
@@ -229,3 +229,30 @@ void rotar() {
       }
     }
 ```
+
+### 2.1.2. Tablero
+
+Esta clase es muy simple, solo se encarga del despliegue del tablero principal. Dibuja las lineas que dividen cada casilla,
+
+```processing
+class Tablero {
+
+  //Variable del tamaño de cada casilla
+  float t_casilla;
+
+  //Constructor
+  Tablero() {
+    t_casilla = width/24; //Establezco el tamaño de cada casilla
+  }
+
+  //Establezco el metodo display para dibujar el tablero en la pantalla
+  void display() {
+    stroke(255);
+    for (int i = 0; i < 13; i++) {
+      line(0, i * t_casilla, width/2, i * t_casilla); //Lineas horizontales 0-13
+      line(0, (i+12) * t_casilla, width/2, (i+12) * t_casilla); //Lineas horizontales 13-25  
+      line(i * t_casilla, 0, i * t_casilla, height); //Lineas verticales
+    }
+  }
+}
+```processing
