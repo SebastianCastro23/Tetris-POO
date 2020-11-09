@@ -255,4 +255,8 @@ class Tablero {
     }
   }
 }
-```processing
+```
+
+### 2.1.3. Tablero Memoria
+
+Es junto con la clase ```tetromino``` las bases del juego. Se trata de una matriz tridimensional donde se almacenan las cordenadas *x* y *y*, y en el tercer espacio se guarda el color de cada casilla. Esto es muy útil ya que es por colores, como se identifica si una ficha puede seguir bajando o no, si encuentra un color diferente al negro, deja de bajar
