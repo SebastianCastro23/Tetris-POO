@@ -437,5 +437,14 @@ En al siguiente tabla, muestro como se lleva la cuenta de los puntos en el juego
 
 <p align="center"><img src="puntaje.PNG" width="35%"></p>
 
+Y, cada 10 filas eliminadas el jugador sube de nivel.
+
+### 3. Referencias
+
+- https://tetris.wiki/Scoring
+- https://processing.org/reference/
+- https://github.com/MrThoe/Tetris_YouTube_tutorial.git
+
+
 
 
