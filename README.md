@@ -433,5 +433,9 @@ void mouseReleased(){
 
 ### 2.3. Sistema de puntuación.
 
-En al siguiente tabla, muestro como se lleva la cuenta de los puntos en el juego,
+En al siguiente tabla, muestro como se lleva la cuenta de los puntos en el juego.
+
+<p align="center"><img src="puntaje.PNG" width="35%"></p>
+
+
 
